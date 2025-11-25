@@ -5,6 +5,7 @@ import random
 import collections
 from copy import deepcopy
 from typing import Dict, List, Tuple
+import os
 
 import chess
 import numpy as np #fast mathematical operations on arrays.
@@ -468,7 +469,12 @@ def evaluate_vs_random(env: ChessEnv, net: Net, mcts_sim=25, games=10, device='c
 
 
 # Main --- training loop
-def main():
+def main2():
+
+    if os.path.exists("mini_alphazero_net.pth"):
+        print("Pretrained model found. Skipping training.")
+        return
+    
     device = 'cpu'
     env = ChessEnv()
     net = Net(action_size=env.action_size)
@@ -498,6 +504,4 @@ def main():
     # save model
     torch.save(net.state_dict(), "mini_alphazero_net.pth")
     print("Training complete. Model saved to mini_alphazero_net.pth")
-
-main()
 
